@@ -37,9 +37,11 @@ Déchiffrer :
 python app/file_crypto.py decrypt secret.enc secret.dec.txt
 cat secret.dec.txt
 ```
-**Que se passe-t-il si on modifie un octet du fichier chiffré ?**  
+**Que se passe-t-il si on modifie un octet du fichier chiffré ?**
+Le fichier chiffré ne sera plus déchiffrable et file_crypto renverra 'invalid token', car la clé Fernet vérifie par HMAC (ça protège contre toute modification, comme dit ci-dessus).
  
 **Pourquoi ne faut-il pas commiter la clé dans Git ?**   
+Car ce n'est pas sécurisé, on ne peut pas avoir une clé en clair dans un dépôt, et aussi facile d'accès quand il s'agit de déchiffrer et chiffrer des fichiers. Il y a aussi un historique Git, donc même après la suppression de la clé, il sera toujours possible de la retrouver dans les commit.
 
 ## 5) Atelier 1 :
 Dans cet atelier, la clé Fernet n'est plus générée dans le code mais stockée dans un Repository Secret Github. Ecrivez un nouveau programme **python app/fernet_atelier1.py** qui utilisera une clé Fernet caché dans un Secret GitHub pour encoder et décoder vos fichiers.
